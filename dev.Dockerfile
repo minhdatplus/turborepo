@@ -17,7 +17,7 @@ COPY  ["yarn.lock", "package.json", "./"]
 # Copy source files
 COPY . .
 
-# Install app dependencies
+# Install app dependencies 
 RUN yarn install
 
 EXPOSE 3000 1337
