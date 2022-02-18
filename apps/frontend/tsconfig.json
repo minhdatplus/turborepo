@@ -4,20 +4,16 @@
     "baseUrl": ".",
     "noEmit": true,
     "paths": {
-      "@src/*": [
-        "./src/*"
-      ]
+      "@src/*": ["./src/*"]
     }
+    // "types": ["node"]
+    // "typeRoots": ["./global.d.ts", "./node_modules/@types"]
   },
   "include": [
+    // "./configs/global.d.ts",
     "next-env.d.ts",
     "src",
     "styles/globals.css"
   ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    ".turbo",
-    "coverage"
-  ]
+  "exclude": ["node_modules", ".next", ".turbo", "coverage"]
 }

@@ -2,6 +2,12 @@ import React from 'react'
 import Head from 'next/head'
 import { useState } from 'react'
 import utils from '../libs/utils'
+import { getMangaByCategory } from '../services/restful/manga'
+import { useQuery } from 'react-query'
+import { Datum } from '../models/manga'
+import GridComicHot from '../components/GridComicHot'
+import GridComicFull from '../components/GridComicFull'
+import Banner from '../components/ads/Banner'
 
 const Home = () => {
   const solutions = [
@@ -87,61 +93,31 @@ const Home = () => {
       href: '#',
     },
   ]
+  const { isSuccess, data, isLoading, isError, error } = useQuery<Array<Datum>>(
+    ['getMangaByCategory', ''],
+    () => getMangaByCategory('Tiên Hiệp'),
+    {}
+  )
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-gray-100 py-2">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex flex-1 flex-col px-20">
-        <div className="max-w-7xl items-center justify-center text-right">
-          <img
-            className="text-center"
-            alt=""
-            src="https://iads.staticscdn.net/ads/2021/03/24/images/4zUU3LCQYPvLYKsHFuqirdHxBpkgxEmtDPFAbayD.jpg"
-          />
+      <main className="flex flex-1 flex-row px-20">
+        <div className="mr-2 flex w-80 flex-none items-center bg-gray-200">
+          <h3 className="mx-auto text-sm font-semibold">Ads</h3>
         </div>
-        <div className="mx-auto mt-2 w-full">
-          <div className="mx-auto flex max-w-7xl items-center justify-start border-b-2">
-            <div className="items-start justify-start text-left font-sans font-bold uppercase text-indigo-600">
-              <a href="#">Truyện Hot</a>
-            </div>
-            <div className="justify-right items-right flex-1 text-right">
-              <a href="#">Truyện Hot</a>
-            </div>
-          </div>
-          <div className="mx-auto flex h-80 w-full bg-gray-300">
-            <div className="grid grid-cols-8 gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-              {solutions.map((item) => (
-                <a
-                  key={item.name}
-                  href="#"
-                  className="-m-3 items-start rounded-lg p-3 hover:bg-gray-100"
-                >
-                  <div className="ml-4">
-                    <p className="text-base font-medium text-gray-900">
-                      {item.name}
-                    </p>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
+        <div className="grow">
+          <Banner adsImage="https://iads.staticscdn.net/ads/2021/06/23/images/otfu6mWu9qGvkKXtH0BtuSGFVVHrZQ54ACNEWRy1.jpg" />
+          <GridComicHot manga={data} />
+          <GridComicFull manga={data} />
+        </div>
+        <div className="ml-2 flex w-80 flex-none items-center bg-gray-200">
+          <h3 className="mx-auto text-sm font-semibold">Ads</h3>
         </div>
       </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="ml-2 h-4" />
-        </a>
-      </footer>
     </div>
   )
 }

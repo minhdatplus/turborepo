@@ -1,8 +1,7 @@
-import axios from "axios";
-
+import { axios } from "../../libs/rest";
 export const getCategory = () =>
   axios
-    .get(`http://localhost:1337/api/categories-plural?fields=name, title, slug`)
+    .get(`categories-plural?fields=name, title, slug`)
     .then((response) => {
-      return response.data;
+      return response.data.data;
     });

@@ -1,30 +1,31 @@
-import axios from "axios";
-
+import { axios } from "../../libs/rest";
 import qs from 'qs';
-const query = qs.stringify({
-  sort: ['title:asc'],
-  filters: {
-    title: {
-      $eq: 'hello',
+
+
+// await request(`/api/books?${query}`);
+
+export const getMangaByCategory = async (category: string) => {
+  const query = qs.stringify({
+    sort: ['title:asc'],
+    // filters: {
+    //   title: {
+    //     $eq: 'hello',
+    //   },
+    // },
+    populate: `categories=${category}`,
+    fields: ['*'],
+    pagination: {
+      pageSize: 16,
+      page: 1,
     },
-  },
-  populate: '*',
-  fields: ['title'],
-  pagination: {
-    pageSize: 10,
-    page: 1,
-  },
-  publicationState: 'live',
-  locale: ['en'],
-}, {
-  encodeValuesOnly: true, // prettify url
-});
+    publicationState: 'live',
+    locale: ['*'],
+  }, {
+    encodeValuesOnly: true, // prettify url
+  });
 
-await request(`/api/books?${query}`);
 
-export const getMangaByCategory = (category: string) =>
-  axios
-    .get(`http://localhost:1337/api/categories-plural?fields=name, title, slug`)
-    .then((response) => {
-      return response.data;
-    });
+  const response = await axios
+    .get(`http://localhost:1337/api/manga-plural?${query}`);
+  return response.data.data;
+}
